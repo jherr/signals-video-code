@@ -1,7 +1,7 @@
 import { component$, Slot } from "@builder.io/qwik";
-import { loader$ } from "@builder.io/qwik-city";
+import { routeLoader$ } from "@builder.io/qwik-city";
 
-export const useServerTimeLoader = loader$(() => {
+export const useServerTimeLoader = routeLoader$(() => {
   return {
     date: new Date().toISOString(),
   };
