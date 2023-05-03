@@ -1,4 +1,4 @@
-import { component$, useStore, useSignal, useTask$ } from "@builder.io/qwik";
+import { component$, useStore, useSignal, useTask$, useComputed$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
 interface UserData {
@@ -25,16 +25,11 @@ export default component$(() => {
     users.value = json.data;
   });
 
-  const filteredUsers = useSignal<UserData[]>([]);
-  useTask$(({ track }) => {
-    track(() => users.value && store.filter);
-    filteredUsers.value =
-      users.value?.filter(
-        (user) =>
+  const filteredUsers = useComputed$(() => {
+    return users.value.filter((user) =>
           user.first_name.includes(store.filter) ||
           user.last_name.includes(store.filter) ||
-          user.email.includes(store.filter)
-      ) ?? [];
+          user.email.includes(store.filter));
   });
 
   return (
